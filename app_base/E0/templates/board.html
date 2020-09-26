@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+{% comment %} ENABLE IMAGE UPLOAD. LINK -> LET'S ENCRYPT {% endcomment %}
+
+<head>
+
+    <meta charset="utf-8" />
+
+
+	{% load static %}
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/board_style.css' %}">
+	{% load static %}
+	<script type="text/javascript" src={% static "js/catalog_script.js" %}></script>
+
+	<meta charset="utf-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>/{{board.board_alias}}/ - {{board.board_name}}</title>
+	{% load static %}
+	<link rel="shortcut icon" href= {% static "assets/favicon.ico" % } />
+	<script>
+		var board_name = '{{board.board_name}}'
+	</script>
+
+	{% comment %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/dark_style.css' %}"> {% endcomment %}
+
+</head>
+
+<body>
+
+	<div id='header'>
+
+		<h1>/{{board.board_id}}/ - {{board.board_name}}</h1>
+
+	<h4> {{board.board_text}} </h4>
+
+
+		<div id='start_thread_link_container'>
+			<a id='start_thread_link' href='#'>Start Thread</a>
+		</div>
+	</div>
+
+	<form id='start_thread_form' name='start_thread_form' enctype='multipart/form-data' method="POST" action= "{% url 'thread_detail' board.board_id %}" >
+		{% csrf_token %}
+		<table class='post_form'>
+			<tbody>
+				<tr>
+					<td>Name</td>
+					<td>
+						<input name='name' type='text' tabindex='1' placeholder="Anonymous" />
+					</td>
+				</tr>
+				<tr>
+					<td>Subject</td>
+					<td>
+						<input name='subject' type='text' tabindex='2' />
+						<input type="submit" onclick=tabindex='5' value="Post">
+					</td>
+				</tr>
+				<tr>
+					<td>Comment</td>
+					<td>
+						<textarea name='text' wrap='soft' tabindex='3' required></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>Image </td>
+					<td>
+						<input type='file' name="image" tabindex='4' />
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<div id='start_thread_status_div'>
+							&nbsp;
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+
+
+	<hr>
+	<div id='info_box_top' class='infobox'>
+		[<a href='/'>Home</a>]
+		[<a href='#bottom' id='top'>Bottom</a>]
+
+		<div class='infobox_sort'>
+			Sort by :
+			<select id='select_sort_method'>
+				<option value='bump_order'>Bump Order</option>
+				<option value='reply_count'>Reply Count</option>
+				<option value='creation_date'>Creation Date</option>
+			</select>
+		</div>
+	</div>
+	<hr>
+
+
+	<div id='div_list'>
+		{% if thread_list %}
+		{% for b in thread_list %}
+		<div class='post_container' data-ts= {{b.creation_date}} data-bump_ts={{b.last_bump}} data-reply_count={{b.reply_count}}>
+			<a href="{% url 'thread_detail' board.board_id b.id %}"><img src={%static 'assets/kumamon_header.jpg'%} alt='{{b.filesize}}'
+					class='thread_img' /></a>
+			<div class='small'><strong>R : {{b.reply_count}}</strong>{{b.thread_extra_status | safe}}</div>
+			<div><span><strong>{{b.thread_name}}</strong> <br> {{b.first_text}}</span></div>
+		</div>
+		{% endfor %}
+		{% if thread_list.length == 0 %}
+		<strong>No Threads yet.</strong>
+		{% endif %}
+		{% endif %}
+	</div>
+
+
+	<hr>
+	<div id='info_box_bottom' class='infobox'>
+		[<a href='/'>Home</a>]
+		[<a href='#top' id='bottom'>Top</a>]
+	</div>
+	<hr>
+
+
+</body>
+
+
+</html>
