@@ -1,0 +1,13 @@
+# virtual environment
+env/
+
+# credentials
+*.env
+*.pem
+
+# static files
+static/
+media/
+
+# cache
+__pycache__/
