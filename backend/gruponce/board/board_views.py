@@ -24,6 +24,22 @@ def create_board(request):
             return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"board": response})
 
+
+# DELETE BOARD
+@api_view(["DELETE"])
+def delete_board(request):
+    parameters = get_request_parameters(request)
+    board_id = parameters['board_id']
+    stat, response = boards_services.delete_board(board_id=board_id)
+    if not stat:
+        if int(response) == 409:
+            # Board already exists "
+            return Response({"error": "Board already exists"}, status=status.HTTP_409_CONFLICT)
+        else:
+            return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"message": response})
+
+
 # GET BOARDS
 @api_view(["GET"])
 def get_boards(request):
