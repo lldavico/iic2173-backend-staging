@@ -18,8 +18,8 @@ def create_thread(request):
     stat, response = thread_services.create_thread(subject =subject, board_id =board_id)
     if not stat:
         if int(response) == 409:
-            # Board already exists "
-            return Response({"error": "Thread already exists"}, status=status.HTTP_409_CONFLICT)
+            # Thread creation failed "
+            return Response({"error": "Thread creation failed."}, status=status.HTTP_409_CONFLICT)
         else:
             return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"thread": response})
