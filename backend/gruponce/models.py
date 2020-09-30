@@ -93,7 +93,6 @@ class ThreadManager(models.Manager):
         curr_board = BoardModel.objects.get(board_id = board_id)
         thread = ThreadManager.obj.create(board= curr_board, thread_name=subject)
         thread.save()
-        print("Thread created")
         return thread
 
     @staticmethod
