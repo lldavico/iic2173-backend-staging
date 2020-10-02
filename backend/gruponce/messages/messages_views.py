@@ -8,16 +8,20 @@ from gruponce.helpers import get_request_parameters, get_user_from_meta
 
 
 @api_view(["POST"])
+@permission_classes((IsAuthenticated, ))
 def create_message(request):
     parameters = get_request_parameters(request)
+    user = get_user_from_meta(request.META)
     thread_id = parameters['threadId']
-    sender_id = parameters['senderId']
+    sender_id = user.id
     message_content = parameters['messageContent']
-    response = messages_services.create_message(thread_id=thread_id,
+    stat, response = messages_services.create_message(thread_id=thread_id,
                                                 sender_id=sender_id,
                                                 message_content=message_content
                                                 )
-    return Response({"response": response})
+    if not stat:
+        return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"messageData": response})
 
 
 @api_view(["GET"])
@@ -28,7 +32,7 @@ def get_all_messages(request):
         return Response({"error": "Unauthorized"},
                         status=status.HTTP_401_UNAUTHORIZED)
     response = messages_services.get_all_messages()
-    return Response({"orders": response})
+    return Response({"messages": response})
 
 
 @api_view(["GET"])
@@ -38,4 +42,16 @@ def get_thread_messages(request, thread_id=None):
     stat, response = messages_services.get_thread_messages(thread_id=thread_id)
     if not stat:
         return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
-    return Response(response)
+    return Response({"messages": response})
+
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated, ))
+def get_my_messages(request):
+    user = get_user_from_meta(request.META)
+    parameters = get_request_parameters(request)
+    thread_id = parameters.get('threadId', None)
+    stat, response = messages_services.get_my_messages(user_id=user.id, thread_id=thread_id)
+    if not stat:
+        return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"messages": response})
