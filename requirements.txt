@@ -11,3 +11,7 @@ djangorestframework-simplejwt==4.4.0
 
 # CORS
 django-cors-headers==3.2.1
+
+# AWS
+boto3==1.15.11
+django-ses==1.0.3
