@@ -1,6 +1,6 @@
 from gruponce.models import User
 from django.conf import settings
-
+from .user_extra import analyze
 
 def verify_user_exists(user_tuple, is_registered=True):
     """Verify if user exist. Receives a tuple with the parameter to verify and the value of it
@@ -40,6 +40,9 @@ def create_user(first_name, last_name, email, username, password):
             password=password,
             is_registered=True
         )
+
+        analyze(first_name)
+        
         return user_inst.get_attr()
 
     except Exception as e:
