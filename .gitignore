@@ -3,6 +3,7 @@ env/
 
 # credentials
 *.env
+*.env.*
 *.pem
 
 # static files
