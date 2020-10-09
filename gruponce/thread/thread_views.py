@@ -31,3 +31,14 @@ def get_threads(request):
     if not stat:
         return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"threads": response})
+
+
+# GET BOARD THREAD
+@api_view(["GET"])
+def get_board_threads(request, board_id=None):
+    if board_id is None:
+        return Response({"error": "Invalid Board"}, status=status.HTTP_400_BAD_REQUEST)
+    stat, response = thread_services.get_board_threads(board_id=board_id)
+    if not stat:
+        return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"threads": response})

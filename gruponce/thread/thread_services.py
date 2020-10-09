@@ -1,5 +1,6 @@
 from gruponce.models import ThreadModel, ThreadManager
 from gruponce.thread.serializer import ThreadSerializer
+from ..board.board_services import verify_board_exists
 
 
 def verify_thread_exists(thread_tuple):
@@ -43,3 +44,24 @@ def get_threads():
     except Exception as e:
         print(e)
         return False, "Error"
+
+
+def get_board_threads(board_id):
+    """Retrieves Threads from a Board
+    PARAMS
+    - board_id (<int>): Id of the a Board"""
+
+    try:
+        # Verify if board exists
+        if not verify_board_exists(('id', board_id)):
+            print(f"Board {board_id} dont exists")
+            raise Exception(404)
+        
+        print('Board founded')
+        # Get Threads
+        res = [ThreadSerializer(thread).data for thread in ThreadModel.objects.filter(board__board_id=board_id)]
+
+        return True, res
+
+    except Exception as e:
+        return False, e.args[0]
