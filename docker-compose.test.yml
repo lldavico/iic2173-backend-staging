@@ -15,7 +15,7 @@ services:
     build: nginx
     restart: always
     ports:
-      - 443:80
+      - 80:80
     volumes:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
