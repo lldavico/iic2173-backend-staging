@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from gruponce.helpers import get_request_parameters
 import gruponce.board.board_services as boards_services
+from django.core.cache import cache
 
 
 # CREATE BOARD
@@ -47,3 +48,20 @@ def get_boards(request):
     if not stat:
         return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
     return Response({"boards": response})
+
+# GET BOARDS FROM CACHE
+@api_view(['GET'])
+def get_cached_boards(request):
+    if 'board' in cache:
+        # get results from cache
+        boards = cache.get('board')
+        return Response({'boards': boards}, status=status.HTTP_201_CREATED)
+ 
+    else:
+        stat, response = boards_services.get_boards()
+        if not stat:
+            return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
+        # store data in cache
+        cache.set('board', response, timeout=300)
+        return Response({"boards": response})
+        # return Response(results, status=status.HTTP_201_CREATED)

@@ -101,6 +101,21 @@ DATABASES = {
     }
 }
 
+# Cache
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': ['redis-001.redis.s19k3o.use1.cache.amazonaws.com', 
+        'redis-002.redis.s19k3o.use1.cache.amazonaws.com', 
+        'redis-003.redis.s19k3o.use1.cache.amazonaws.com'],     #Check IP address!!
+        
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
