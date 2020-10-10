@@ -1,8 +1,11 @@
 from rest_framework import serializers
-from gruponce.models import MessageModel
+from ..models import MessageModel
+from ..user.serializer import UserMessageSerializer
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    user_sender = UserMessageSerializer()
+
     class Meta:
         model = MessageModel
-        fields = '__all__'
+        fields = ['thread', 'message_content', 'creation_date', 'user_sender']
