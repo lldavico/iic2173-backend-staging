@@ -4,16 +4,21 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from gruponce.messages import messages_services
-from gruponce.helpers import get_request_parameters, get_user_from_meta
+from gruponce.helpers import analyze, get_request_parameters, get_user_from_meta
 
+
+#TODO: FIX FIX FIX FIX: you don't NEED to be a user to post, this is actually not the requirement!
+#NOTE: HOW THE FUCK DO I AUTH MYSELF
 
 @api_view(["POST"])
-@permission_classes((IsAuthenticated, ))
+#@permission_classes((IsAuthenticated, ))
 def create_message(request):
     parameters = get_request_parameters(request)
     user = get_user_from_meta(request.META)
     thread_id = parameters['threadId']
-    sender_id = user.id
+    #TODO: FIX!
+    #sender_id = user.id
+    sender_id = 2
     message_content = parameters['messageContent']
     stat, response = messages_services.create_message(thread_id=thread_id,
                                                 sender_id=sender_id,
@@ -21,6 +26,8 @@ def create_message(request):
                                                 )
     if not stat:
         return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
+    comprehend_result = analyze(message_content)
+    response["AWSSentiment"] = comprehend_result
     return Response({"messageData": response})
 
 

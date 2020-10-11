@@ -1,7 +1,11 @@
 import json
 import re
+
+import boto3
 import jwt
+from backend.settings import AWS_ACCESS_KEY_ID, AWS_REGION, AWS_SECRET_ACCESS_KEY
 from django.conf import settings
+
 from gruponce.models import User
 
 SECRET_KEY = settings.SECRET_KEY
@@ -44,3 +48,16 @@ def get_user_from_meta(meta_data):
         return False
     user = User.objects.get(id=res_dict['user_id'])
     return user
+
+
+
+# AWS SENTIMENT
+
+
+def analyze(text):
+    
+    comprehend = boto3.client(service_name='comprehend', region_name=AWS_REGION, aws_access_key_id = AWS_ACCESS_KEY_ID, aws_secret_access_key = AWS_SECRET_ACCESS_KEY)               
+    to_return = comprehend.detect_sentiment(Text=text, LanguageCode='en')
+    return to_return["Sentiment"]
+
+
