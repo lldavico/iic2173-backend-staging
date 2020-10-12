@@ -7,18 +7,13 @@ from gruponce.messages import messages_services
 from gruponce.helpers import analyze, get_request_parameters, get_user_from_meta
 
 
-#TODO: FIX FIX FIX FIX: you don't NEED to be a user to post, this is actually not the requirement!
-#NOTE: HOW THE FUCK DO I AUTH MYSELF
-
 @api_view(["POST"])
-#@permission_classes((IsAuthenticated, ))
+@permission_classes((IsAuthenticated, ))
 def create_message(request):
     parameters = get_request_parameters(request)
     user = get_user_from_meta(request.META)
     thread_id = parameters['threadId']
-    #TODO: FIX!
-    #sender_id = user.id
-    sender_id = 2
+    sender_id = user.id
     message_content = parameters['messageContent']
     stat, response = messages_services.create_message(thread_id=thread_id,
                                                 sender_id=sender_id,
