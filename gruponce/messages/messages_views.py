@@ -60,10 +60,8 @@ def get_my_messages(request):
 # GET BOARDS FROM CACHE
 @api_view(['GET'])
 def get_cached_thread_messages(request, thread_id=None):
-    
     if thread_id is None or type(thread_id) != int:
         return Response({"error": "Invalid Thread"}, status=status.HTTP_400_BAD_REQUEST)
-    
     elif 'thread_message' + str(thread_id) in cache:
         # get results from cache
         thread_messages = cache.get('thread_message' + str(thread_id))

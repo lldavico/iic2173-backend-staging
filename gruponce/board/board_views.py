@@ -8,6 +8,11 @@ from rest_framework import status
 from gruponce.helpers import get_request_parameters
 import gruponce.board.board_services as boards_services
 from django.core.cache import cache
+from django_redis import get_redis_connection
+import redis
+
+redis_instance = redis.StrictRedis(host='localhost',
+                                   port=6379, db=0)
 
 
 # CREATE BOARD
@@ -52,16 +57,24 @@ def get_boards(request):
 # GET BOARDS FROM CACHE
 @api_view(['GET'])
 def get_cached_boards(request):
-    if 'board' in cache:
-        # get results from cache
-        boards = cache.get('board')
-        return Response({'boards': boards}, status=status.HTTP_201_CREATED)
- 
-    else:
-        stat, response = boards_services.get_boards()
-        if not stat:
-            return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
-        # store data in cache
-        cache.set('board', response, timeout=300)
-        return Response({"boards": response})
-        # return Response(results, status=status.HTTP_201_CREATED)
+    print("GET CACHED BOARDS")
+    try:
+        if 'board' in cache:
+            # get results from cache
+            print("Before cache.get")
+            boards = cache.get('board')
+            return Response({'boards': boards}, status=status.HTTP_201_CREATED)
+    
+        else:
+            print("Me fui al else")
+            stat, response = boards_services.get_boards()
+            if not stat:
+                return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
+            # store data in cache
+            cache.set('board', response, timeout=300)
+            return Response({"boards": response})
+            # return Response(results, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        print(e)
+        return False, "Error"

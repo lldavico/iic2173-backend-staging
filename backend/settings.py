@@ -106,10 +106,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ['redis-001.redis.s19k3o.use1.cache.amazonaws.com', 
-        'redis-002.redis.s19k3o.use1.cache.amazonaws.com', 
-        'redis-003.redis.s19k3o.use1.cache.amazonaws.com'],     #Check IP address!!
-        
+        'LOCATION': os.environ.get("REDIS_CACHE").split(" "),     #Check IP address!! 'redis://redis:6379'
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
