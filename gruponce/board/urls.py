@@ -5,4 +5,5 @@ urlpatterns = [
     path(r"create_board", views.create_board, name="create_board"),
     path(r"delete_board", views.delete_board, name="delete_board"),
     path(r"get_boards", views.get_boards, name="get_boards"),
+    path(r"get_cached_boards", views.get_cached_boards, name="get_cached_boards"),
 ]
