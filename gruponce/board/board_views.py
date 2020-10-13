@@ -72,7 +72,7 @@ def get_cached_boards(request):
             if not stat:
                 return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
             # store data in cache
-            cache.set('board', response, timeout=300)
+            cache.set('board', response, timeout=1800)
             return Response({"boards": response})
             # return Response(results, status=status.HTTP_201_CREATED)
 

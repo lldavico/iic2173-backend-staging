@@ -74,5 +74,5 @@ def get_cached_thread_messages(request, thread_id=None):
         if not stat:
             return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
         # store data in cache
-        cache.set('thread_message' + str(thread_id), response, timeout=300)
+        cache.set('thread_message' + str(thread_id), response, timeout=30)
         return Response({"messages": response})
