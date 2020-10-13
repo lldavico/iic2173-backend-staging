@@ -1,3 +1,5 @@
+from backend.settings import REDIS_CACHE_ENV
+import os
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.response import Response
@@ -11,10 +13,8 @@ from django.core.cache import cache
 from django_redis import get_redis_connection
 import redis
 
-redis_instance = redis.StrictRedis(host='localhost',
-                                   port=6379, db=0)
 
-
+print("CREATED REDIS INSTANCE")
 # CREATE BOARD
 @api_view(["POST"])
 def create_board(request):
@@ -49,6 +49,7 @@ def delete_board(request):
 # GET BOARDS
 @api_view(["GET"])
 def get_boards(request):
+    print("waa")
     stat, response = boards_services.get_boards()
     if not stat:
         return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)

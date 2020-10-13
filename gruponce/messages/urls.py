@@ -6,4 +6,5 @@ urlpatterns = [
     path(r"get_all_messages", views.get_all_messages, name="get_all_messages"),
     path(r"get_cached_thread_messages/<int:thread_id>", views.get_cached_thread_messages, name="get_cached_thread_messages"),
     path(r"get_my_messages", views.get_my_messages, name="get_my_messages"),
+    path(r"get_thread_messages/<int:thread_id>", views.get_thread_messages, name="get_thread_messages"),
 ]

@@ -40,6 +40,9 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
+AWS_EC2_IP = env('AWS_EC2_IP')
+AWS_EC2_DNS = env('AWS_EC2_DNS')
+
 
 # Application definition
 
@@ -107,10 +110,11 @@ DATABASES = {
 
 # Cache
 
+REDIS_CACHE_ENV = os.environ.get("REDIS_CACHE").split(" ")
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.environ.get("REDIS_CACHE").split(" "),     #Check IP address!! 'redis://redis:6379'
+        'LOCATION': REDIS_CACHE_ENV ,     #Check IP address!! 'redis://redis:6379'
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -175,5 +179,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 AWS_ACCESS_KEY_ID = env("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = env("aws_secret_access_key")
 AWS_REGION = env("aws_region")
-
 
