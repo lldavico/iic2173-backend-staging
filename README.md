@@ -18,7 +18,7 @@ Se agregó el archivo.pem y comando exacto en el archivo.zip subido a canvas.
 En esta entrega se cumplió con los requisitos mínimos. Más en detalle:
 
 | Requisito | Cumplimiento |
-| ---------: -----------:|
+| ---------: | -----------:|
 | RF1 | Logrado :white_check_mark: |
 | RF2 | Logrado :white_check_mark: |
 | RF3  | Logrado :white_check_mark: |
@@ -39,8 +39,8 @@ Más en detalle:
 
 ### Requisito Variable 2: Trabajo delegado
 
-| Requisito | Descripción | Cumplimiento |
-| ---------:| ------------:| -----------:|
+| Requisito | Cumplimiento |
+| ---------:| -----------:|
 | RF1 | Logrado :white_check_mark: |
 
 Se logró hacer sentiment análisis en los mensajes de los usuarios a través de AWS Comprehend. Este fue considerado, según la indicación del enunciado, como requisito que cumple con todas las solicitudes de trabajo delegado.
