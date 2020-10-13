@@ -40,6 +40,9 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
+AWS_EC2_DNS = env('AWS_EC2_IP')
+AWS_EC2_DNS = env('AWS_EC2_DNS')
+
 
 # Application definition
 
