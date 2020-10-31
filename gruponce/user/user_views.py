@@ -24,4 +24,4 @@ def create_user(request):
         password=password,
         email=email,
     )
-    return Response({"userData": response})
+    return Response({"userData": response}, status=status.HTTP_201_CREATED)
