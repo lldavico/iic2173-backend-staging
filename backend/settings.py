@@ -176,7 +176,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-AWS_ACCESS_KEY_ID = env("aws_access_key_id")
-AWS_SECRET_ACCESS_KEY = env("aws_secret_access_key")
-AWS_REGION = env("aws_region")
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = env("AWS_REGION")
 
