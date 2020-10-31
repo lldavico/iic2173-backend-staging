@@ -36,9 +36,10 @@ def get_threads(request):
 # GET BOARD THREAD
 @api_view(["GET"])
 def get_board_threads(request, board_id=None):
-    if board_id is None:
+    if not board_id:
         return Response({"error": "Invalid Board"}, status=status.HTTP_400_BAD_REQUEST)
-    stat, response = thread_services.get_board_threads(board_id=board_id)
-    if not stat:
-        return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
-    return Response({"threads": response})
+    else:
+        stat, response = thread_services.get_board_threads(board_id=board_id)
+        if not stat:
+            return Response({"error": response}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"threads": response})
