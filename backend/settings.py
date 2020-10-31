@@ -46,19 +46,26 @@ AWS_EC2_DNS = env('AWS_EC2_DNS')
 
 # Application definition
 
+
+
+
 INSTALLED_APPS = [
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
+    'oauth2_provider',
+    'corsheaders',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'gruponce.apps.GruponceConfig',
+    'backend',
+    'gruponce'
+    
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,16 +73,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'gruponce.middleware.AwsEC2Middleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+
 ROOT_URLCONF = 'backend.urls'
+TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,6 +96,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -107,20 +118,6 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
-
-# Cache
-
-REDIS_CACHE_ENV = os.environ.get("REDIS_CACHE").split(" ")
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': REDIS_CACHE_ENV ,     #Check IP address!! 'redis://redis:6379'
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -179,4 +176,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 AWS_ACCESS_KEY_ID = env("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = env("aws_secret_access_key")
 AWS_REGION = env("aws_region")
+
+
+OAUTH2_PROVIDER = {
+    'SCOPES': {
+        'read': 'Read scope',
+        'write': 'Write scope',
+        'introspection': 'Introspect token scope',
+    },
+
+    'RESOURCE_SERVER_INTROSPECTION_URL': env("introspection_url"),
+    'RESOURCE_SERVER_AUTH_TOKEN': env("auth_token"), # OR this but not both:
+
+    'CLIENT_ID_GENERATOR_CLASS': 'oauth2_provider.generators.ClientIdGenerator',
+
+}
+
 
