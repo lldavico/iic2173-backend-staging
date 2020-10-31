@@ -13,7 +13,7 @@ install:
 script:
   - docker-compose up -d
   - docker-compose run web python manage.py test
-  - sed -i -e 's/\r$/\n/' server-start.sh
+  - sed -i -e 's/\r$/\n/' start.sh
   - sed -i -e 's/\r$/\n/' stop.sh
   #- sed -i -e 's/\r$/\n/' install.sh
   - zip -r latest *
