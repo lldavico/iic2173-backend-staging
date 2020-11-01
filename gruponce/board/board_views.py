@@ -1,4 +1,3 @@
-from backend.settings import REDIS_CACHE_ENV
 import os
 from django.shortcuts import render
 from django.http import HttpResponse

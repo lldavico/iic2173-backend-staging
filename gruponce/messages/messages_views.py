@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django.contrib.auth.decorators import login_required
 
 from gruponce.messages import messages_services
 from gruponce.helpers import analyze, get_request_parameters, get_user_from_meta
@@ -28,12 +29,8 @@ def create_message(request):
 
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated, ))
+@login_required()
 def get_all_messages(request):
-    user = get_user_from_meta(request.META)
-    if not user or not user.is_superuser:
-        return Response({"error": "Unauthorized"},
-                        status=status.HTTP_401_UNAUTHORIZED)
     response = messages_services.get_all_messages()
     return Response({"messages": response})
 
@@ -49,7 +46,8 @@ def get_thread_messages(request, thread_id=None):
 
 
 @api_view(["POST"])
-@permission_classes((IsAuthenticated, ))
+
+@login_required()
 def get_my_messages(request):
     user = get_user_from_meta(request.META)
     parameters = get_request_parameters(request)
