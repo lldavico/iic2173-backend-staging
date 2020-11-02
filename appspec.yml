@@ -8,17 +8,17 @@ files:
 permissions:
   - object: ci-scripts
     pattern: "**"
-    owner: ec2-user
+    owner: ubuntu
 hooks:
   ApplicationStop:
     - location: ci-scripts/stop.sh
       timeout: 600
-      runas: ec2-user
+      runas: ubuntu
   AfterInstall:
     - location: ci-scripts/install.sh
       timeout: 600
-      runas: ec2-user
+      runas: ubuntu
   ApplicationStart:
     - location: ci-scripts/start.sh
       timeout: 600
-      runas: ec2-user
+      runas: ubuntu
