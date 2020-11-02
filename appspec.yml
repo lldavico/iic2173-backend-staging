@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: ci-scripts
-    destination: ei/backend-project
+    destination: e1/backend-project
 
 permissions:
   - object: ci-scripts
