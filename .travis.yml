@@ -15,7 +15,7 @@ script:
   - docker-compose -f docker-compose.travis.yml run web python manage.py test
   - sed -i -e 's/\r$/\n/' ci-scripts/start.sh
   - sed -i -e 's/\r$/\n/' ci-scripts/stop.sh
-  #- sed -i -e 's/\r$/\n/' ci-scripts/install.sh
+  - sed -i -e 's/\r$/\n/' ci-scripts/install.sh
   - zip -r latest *
   - mkdir -p backend
   - mv latest.zip backend/latest.zip
