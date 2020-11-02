@@ -13,9 +13,9 @@ install:
 script:
   - docker-compose up -d
   - docker-compose run web python manage.py test
-  - sed -i -e 's/\r$/\n/' server-start.sh
-  - sed -i -e 's/\r$/\n/' stop.sh
-  #- sed -i -e 's/\r$/\n/' install.sh
+  - sed -i -e 's/\r$/\n/' ci-scripts/start.sh
+  - sed -i -e 's/\r$/\n/' ci-scripts/stop.sh
+  #- sed -i -e 's/\r$/\n/' ci-scripts/install.sh
   - zip -r latest *
   - mkdir -p backend
   - mv latest.zip backend/latest.zip
