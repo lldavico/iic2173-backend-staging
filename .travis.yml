@@ -8,14 +8,14 @@ branches:
     - master
 
 install:
-  - docker-compose build
+  - docker-compose -f docker-compose.travis.yml build
 
 script:
-  - docker-compose up -d
-  - docker-compose run web python manage.py test
-  - sed -i -e 's/\r$/\n/' start.sh
-  - sed -i -e 's/\r$/\n/' stop.sh
-  #- sed -i -e 's/\r$/\n/' install.sh
+  - docker-compose -f docker-compose.travis.yml up -d
+  - docker-compose -f docker-compose.travis.yml run web python manage.py test
+  - sed -i -e 's/\r$/\n/' ci-scripts/start.sh
+  - sed -i -e 's/\r$/\n/' ci-scripts/stop.sh
+  #- sed -i -e 's/\r$/\n/' ci-scripts/install.sh
   - zip -r latest *
   - mkdir -p backend
   - mv latest.zip backend/latest.zip
