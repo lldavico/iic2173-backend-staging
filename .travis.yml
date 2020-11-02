@@ -8,11 +8,11 @@ branches:
     - master
 
 install:
-  - docker-compose build
+  - docker-compose -f docker-compose.test.yml build
 
 script:
-  - docker-compose up -d
-  - docker-compose run web python manage.py test
+  - docker-compose -f docker-compose.test.yml up -d
+  - docker-compose -f docker-compose.test.yml run web python manage.py test
   - sed -i -e 's/\r$/\n/' ci-scripts/start.sh
   - sed -i -e 's/\r$/\n/' ci-scripts/stop.sh
   #- sed -i -e 's/\r$/\n/' ci-scripts/install.sh
