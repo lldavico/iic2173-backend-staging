@@ -1,0 +1,39 @@
+version: '3'
+  
+services:
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=$SECRET_KEY
+      - ALLOWED_HOSTS=$ALLOWED_HOSTS
+      - DEBUG=$DEBUG
+      - DB_NAME=$DB_NAME
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_HOST=$DB_HOST
+      - DB_PORT=$DB_PORT
+      - REDIS_CACHE=$REDIS_CACHE
+      - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+      - AWS_REGION=$AWS_REGION
+      - AWS_EC2_DNS=$AWS_EC2_DNS
+      - AWS_EC2_IP=$AWS_EC2_IP
+    depends_on:
+      - db
+      
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+    - postgres_data:/var/lib/postgresql/data/ 
+
+volumes:
+  postgres_data:
