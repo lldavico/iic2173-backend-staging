@@ -6,8 +6,6 @@ import requests
 
 
 
-
-
 class AuthorizationView(APIView):
     permission_classes = [AllowAny]
 
@@ -41,19 +39,6 @@ class AuthorizationView(APIView):
         'grant_type': 'authorization_code'
         }
 
-        
-        s = requests.Session()
-
-        req = requests.Request('POST',  token_url, data=data, headers=headers)
-
-        prepped = s.prepare_request(req)
-
-        resp = s.send(prepped)
-
-        print("REACHED HERE!")
-        print(resp.status_code)
-
-
         response_auth = requests.post(token_url, headers=headers, data=data)
-
-        return response_auth
+        print(response_auth.json())
+        return Response(response_auth.json())
