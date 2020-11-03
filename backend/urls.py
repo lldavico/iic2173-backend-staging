@@ -22,12 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/login/', auth_views.LoginView.as_view(template_name='login.html')),
     path('registration/', include('django.contrib.auth.urls')),
-    path("o/", include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('api/', include('gruponce.urls')),
 
-]
-oauth2_endpoint_views = [
-    path('authorize/', oauth2_views.AuthorizationView.as_view(), name="authorize"),
-    path('token/', oauth2_views.TokenView.as_view(), name="token"),
-    path('revoke-token/', oauth2_views.RevokeTokenView.as_view(), name="revoke-token"),
 ]

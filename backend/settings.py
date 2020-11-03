@@ -195,9 +195,8 @@ OAUTH2_PROVIDER = {
     },
 
     'RESOURCE_SERVER_INTROSPECTION_URL': env("introspection_url"),
-    'RESOURCE_SERVER_AUTH_TOKEN': env("auth_token"), # OR this but not both:
-
-    'CLIENT_ID_GENERATOR_CLASS': 'oauth2_provider.generators.ClientIdGenerator',
+    'RESOURCE_SERVER_INTROSPECTION_CREDENTIALS': (env("client_id"),env("client_secret")),
+    'CLIENT_ID_GENERATOR_CLASS': 'oauth2_provider.generators.ClientIdGenerator'
 
 }
 
