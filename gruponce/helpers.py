@@ -14,9 +14,9 @@ SECRET_KEY = settings.SECRET_KEY
 def get_request_parameters(request):
     """ Return dic of request params """
     parameters = {}
-    if request.body:
+    if request.data:
         # Decode data to a dict object
-        json_data = json.loads(request.body.decode('utf-8'))
+        json_data = request.data
         parameters = json_data
     return parameters
 

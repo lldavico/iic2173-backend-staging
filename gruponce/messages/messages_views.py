@@ -10,7 +10,7 @@ from gruponce.helpers import analyze, get_request_parameters, get_user_from_meta
 from django.core.cache import cache
 
 @api_view(["POST"])
-@permission_classes((IsAuthenticated, ))
+@login_required()
 def create_message(request):
     parameters = get_request_parameters(request)
     user = get_user_from_meta(request.META)
