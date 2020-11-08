@@ -7,6 +7,9 @@ from backend.settings import AWS_ACCESS_KEY_ID, AWS_REGION, AWS_SECRET_ACCESS_KE
 from django.conf import settings
 
 from gruponce.models import User
+from backend.settings import env
+
+import requests
 
 SECRET_KEY = settings.SECRET_KEY
 
@@ -36,18 +39,30 @@ def get_token_decoded(META):
     return token
 
 
-def get_user_from_meta(meta_data):
+def get_user_from_meta(request):
     """ Return a user associated to the given user """
-    token = get_token_decoded(meta_data)
-    res_dict = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-    if res_dict['user_id'] is None:
-        print('Invalid Token')
-        return False
-    if not User.objects.filter(id=res_dict['user_id']).exists():
-        print("User doesnt exists")
-        return False
-    user = User.objects.get(id=res_dict['user_id'])
-    return user
+    token = get_token_decoded(request.META)
+    code = request.data.get('code', None)
+    print("CODE:", code)
+
+    url = env("introspect_url")
+
+    payload='token='+token
+    print("PAYLOAD", payload)
+    headers = {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    print("HEADERS: ", headers)
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+    res_dict = response.json()
+    print(res_dict)
+    if not res_dict['active']:
+        raise Exception("Not user")
+    else:
+        user = User.objects.get(username=res_dict['username'])
+        return user
 
 
 
