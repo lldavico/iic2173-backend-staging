@@ -2,23 +2,16 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
-    destination: e1/backend-project/
+  - source: latest/latest.zip
+    destination: /home/ubuntu/e1/backend-project/
 
-#permissions:
-#  - object: ci-scripts
-#    pattern: "**"
-#    owner: ubuntu
 hooks:
-  #ApplicationStop:
-    #- location: ci-scripts/stop.sh
-    #  timeout: 1200
-    #  runas: ubuntu
+  ApplicationStop:
+    - location: ci-scripts/stop.sh
+      runas: root
   AfterInstall:
     - location: ci-scripts/install.sh
-      timeout: 1200
-      runas: ubuntu
+      runas: root
   ApplicationStart:
     - location: ci-scripts/start.sh
-      timeout: 1200
-      runas: ubuntu
+      runas: root
