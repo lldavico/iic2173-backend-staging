@@ -1,0 +1,45 @@
+language: python:3
+
+services:
+  - docker
+
+branches:
+  only: 
+    - master
+
+install:
+  - docker-compose -f docker-compose.travis.yml build
+
+script:
+  - docker-compose -f docker-compose.travis.yml up -d
+  - docker-compose -f docker-compose.travis.yml run web python manage.py test
+  - sed -i -e 's/\r$/\n/' ci-scripts/start.sh
+  - sed -i -e 's/\r$/\n/' ci-scripts/stop.sh
+  - sed -i -e 's/\r$/\n/' ci-scripts/install.sh
+  - zip -r latest *
+  - mkdir -p backend
+  - mv latest.zip backend/latest.zip
+
+deploy: 
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    local_dir: backend
+    skip_cleanup: true
+    bucket: "ci-backend-bucket"
+    region: us-east-1
+    upload-dir: latest
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: "ci-backend-bucket"
+    key: latest/latest.zip
+    bundle_type: zip
+    application: gruponce-test
+    deployment_group: gruponce-staging
+    region: us-east-1
+    wait_until_deployed: true
+    on:
+      - branch: master
+
+
