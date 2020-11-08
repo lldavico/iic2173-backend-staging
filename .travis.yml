@@ -9,6 +9,8 @@ branches:
 
 install:
   - docker-compose -f docker-compose.travis.yml build
+  - docker-compose -f docker-compose.travis.yml run web python manage.py makemigrations
+  - docker-compose -f docker-compose.travis.yml run web python manage.py migrate
 
 script:
   - docker-compose -f docker-compose.travis.yml up -d
