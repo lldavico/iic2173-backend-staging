@@ -3,15 +3,15 @@ os: linux
 
 files:
   - source: /
-    destination: ci-scripts/
+    destination: /
 
 hooks:
   ApplicationStop:
-    - location: stop.sh
+    - location: ci-scripts/stop.sh
       runas: root
   AfterInstall:
-    - location: install.sh
+    - location: ci-scripts/install.sh
       runas: root
   ApplicationStart:
-    - location: start.sh
+    - location: ci-scripts/start.sh
       runas: root
