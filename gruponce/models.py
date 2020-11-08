@@ -39,6 +39,9 @@ class BoardModel(models.Model):
     board_id = models.CharField(max_length=5, primary_key=True, unique=True)
     creation_date = models.DateTimeField('creation_date', auto_now_add=True)
     board_text = models.CharField(max_length=250)
+    private = models.BooleanField(default= False)
+    is_open = models.BooleanField(default= True)
+    allowed_users = models.ManyToManyField(User)
 
 
 class ThreadModel(models.Model):
@@ -66,7 +69,7 @@ class MessageModel(models.Model):
     message_content = models.CharField(max_length=1000)
     creation_date = models.DateTimeField(auto_now_add=True)
     user_sender = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    is_censored = models.BooleanField(default= False)
     class Meta:
         ordering = ['creation_date']
 
