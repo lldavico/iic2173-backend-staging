@@ -2,16 +2,16 @@ version: 0.0
 os: linux
 
 files:
-  - source: ci-scripts/
+  - source: /
     destination: ci-scripts/
 
 hooks:
   ApplicationStop:
-    - location: ci-scripts/stop.sh
+    - location: stop.sh
       runas: root
   AfterInstall:
-    - location: ci-scripts/install.sh
+    - location: install.sh
       runas: root
   ApplicationStart:
-    - location: ci-scripts/start.sh
+    - location: start.sh
       runas: root
