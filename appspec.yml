@@ -10,10 +10,10 @@ files:
 #    pattern: "**"
 #    owner: ubuntu
 hooks:
-  ApplicationStop:
-    - location: ci-scripts/stop.sh
-      timeout: 1200
-      runas: ubuntu
+  #ApplicationStop:
+    #- location: ci-scripts/stop.sh
+    #  timeout: 1200
+    #  runas: ubuntu
   AfterInstall:
     - location: ci-scripts/install.sh
       timeout: 1200
