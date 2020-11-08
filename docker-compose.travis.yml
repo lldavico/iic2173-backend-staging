@@ -23,6 +23,12 @@ services:
       - AWS_REGION=$AWS_REGION
       - AWS_EC2_DNS=$AWS_EC2_DNS
       - AWS_EC2_IP=$AWS_EC2_IP
+      - introspection_url=$introspection_url
+      - token_url=$token_url
+      - auth_token=$auth_token
+      - client_id=$client_id
+      - client_secret=$client_secret
+      - callback_uri=$callback_uri
     depends_on:
       - db
       
