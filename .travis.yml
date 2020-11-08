@@ -40,7 +40,7 @@ deploy:
     application: gruponce-test
     deployment_group: gruponce-staging
     region: us-east-1
-    wait_until_deployed: true
+    wait_until_deployed: false
     on:
       - branch: master
 
