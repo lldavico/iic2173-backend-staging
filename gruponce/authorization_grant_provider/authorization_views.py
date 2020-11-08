@@ -17,7 +17,7 @@ class AuthorizationView(APIView):
 
 
 
-    def get(self,request):
+    def get(self, request):
 
         print(request)
         client_secret = env("client_secret")

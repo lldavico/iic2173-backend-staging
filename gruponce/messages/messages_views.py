@@ -13,7 +13,7 @@ from django.core.cache import cache
 @login_required()
 def create_message(request):
     parameters = get_request_parameters(request)
-    user = get_user_from_meta(request.META)
+    user = get_user_from_meta(request)
     thread_id = parameters['threadId']
     sender_id = user.id
     message_content = parameters['messageContent']
@@ -49,13 +49,16 @@ def get_thread_messages(request, thread_id=None):
 
 @login_required()
 def get_my_messages(request):
-    user = get_user_from_meta(request.META)
-    parameters = get_request_parameters(request)
-    thread_id = parameters.get('threadId', None)
-    stat, response = messages_services.get_my_messages(user_id=user.id, thread_id=thread_id)
-    if not stat:
-        return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
-    return Response({"messages": response})
+    try:
+        user = get_user_from_meta(request)
+        parameters = get_request_parameters(request)
+        thread_id = parameters.get('threadId', None)
+        stat, response = messages_services.get_my_messages(user_id=user.id, thread_id=thread_id)
+        if not stat:
+            return Response({"error": response}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"messages": response})
+    except Exception as e:
+        return Response({ 'error': 'Error po mi rey' }, status=status.HTTP_400_BAD_REQUEST)
 
 # GET BOARDS FROM CACHE
 @api_view(['GET'])
