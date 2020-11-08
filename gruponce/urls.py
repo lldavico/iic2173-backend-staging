@@ -6,4 +6,5 @@ urlpatterns = [
     path(r"boards/", include("gruponce.board.urls"), name="boards"),
     path(r"threads/", include("gruponce.thread.urls"), name="threads"),
     path(r"messages/", include("gruponce.messages.urls"), name="messages"),
+    path(r"authorization/",include("gruponce.authorization_grant_provider.urls"), name = "authorization")
 ]

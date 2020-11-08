@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from gruponce.helpers import get_request_parameters
 import gruponce.user.user_services as user_services
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 @api_view(["POST"])

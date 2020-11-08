@@ -1,4 +1,3 @@
-from backend.settings import REDIS_CACHE_ENV
 import os
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -18,24 +17,17 @@ print("CREATED REDIS INSTANCE")
 # CREATE BOARD
 @api_view(["POST"])
 def create_board(request):
-    try:
-        parameters = get_request_parameters(request)
-        if parameters.get('boardName', None) is None:
-            raise Exception('boardName not found')
-        if parameters.get('boardText', None) is None:
-            raise Exception('boardText not found')
-        name = parameters['boardName']
-        text = parameters['boardText']
-        stat, response = boards_services.create_board(board_name=name, board_text=text)
-        if not stat:
-            if int(response) == 409:
-                # Board already exists "
-                return Response({"error": "Board already exists"}, status=status.HTTP_409_CONFLICT)
-            else:
-                return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"board": response})
-    except Exception as e:
-        return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
+    parameters = get_request_parameters(request)
+    name = parameters['board_name']
+    text = parameters['board_text']
+    stat, response = boards_services.create_board(board_name=name, board_text=text)
+    if not stat:
+        if int(response) == 409:
+            # Board already exists "
+            return Response({"error": "Board already exists"}, status=status.HTTP_409_CONFLICT)
+        else:
+            return Response({"error": "Error en la consulta"}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"board": response})
 
 
 # DELETE BOARD
