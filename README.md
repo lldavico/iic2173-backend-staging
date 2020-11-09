@@ -59,3 +59,4 @@ La configuración de cache es tipo FIFO. A medida que van llegando las request, 
 Los datos cacheados son los boards y los mensajes. Los mensajes tienen un tiempo de cacheado de 30 segundos. Por otro lado, la restricción de tiempo de los boards son 30 minutos. Esta diferencia se debe a que la creación de boards es mucho menos frecuente que la creación de mensajes, por lo que mantener el cache de los boards por más tiempo es beneficioso para la request y menos costoso debido a que hay que realizar menos llamadas a la database.
 
 Hi
+Hello
