@@ -60,3 +60,4 @@ Los datos cacheados son los boards y los mensajes. Los mensajes tienen un tiempo
 
 Hi
 Hello
+Ahora si funciona
