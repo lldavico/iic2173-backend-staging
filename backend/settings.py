@@ -194,7 +194,7 @@ OAUTH2_PROVIDER = {
         'introspection': 'Introspect token scope',
     },
 
-    'RESOURCE_SERVER_INTROSPECTION_URL': env("introspection_url"),
+    'RESOURCE_SERVER_INTROSPECTION_URL': env("introspect_url"),
     'RESOURCE_SERVER_INTROSPECTION_CREDENTIALS': (env("client_id"),env("client_secret")),
     'CLIENT_ID_GENERATOR_CLASS': 'oauth2_provider.generators.ClientIdGenerator'
 

@@ -27,6 +27,9 @@ def create_message(thread_id, sender_id, message_content):
         # Create Message
         user_inst = User.objects.get(id=sender_id)
         thread_inst = ThreadModel.objects.get(id=thread_id)
+        print(thread_inst.board.allowed_users.all())
+        if thread_inst.board.private and user_inst not in thread_inst.board.allowed_users.all() or not thread_inst.board.is_open:
+            raise Exception(666)
 
         message_ins = MessageModel.objects.create(thread=thread_inst,
                                                 message_content=message_content,
