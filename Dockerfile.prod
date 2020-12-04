@@ -60,6 +60,9 @@ COPY . $APP_HOME
 # chown all the files to the app user
 RUN chown -R app:app $APP_HOME
 
+RUN pip install appoptics-apm
+RUN export APPOPTICS_SERVICE_KEY=xpKp_JPfTVCuETTRHANl30T7MiX0t_yGHB2iBJgd_5M9uPx0vudRv7JACY-nfGu09_wf9YY:gruponce-good
+
 # change to the app user
 USER app
 
