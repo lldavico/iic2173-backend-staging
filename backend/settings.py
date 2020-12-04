@@ -65,7 +65,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'backend',
-    'gruponce'
+    'gruponce',
+   'appoptics_apm.djangoware',
     
 ]
 
