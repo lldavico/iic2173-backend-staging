@@ -2,7 +2,7 @@
 ###########
 
 # pull official base image
-FROM python:3-alpine as builder
+FROM python:3 as builder
 
 # set work directory
 WORKDIR /code
@@ -10,10 +10,12 @@ WORKDIR /code
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+RUN pip install --upgrade pip setuptools wheel
+
 
 # install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt update \
+    && apt install postgresql gcc python3-dev musl-dev -y
 
 # lint
 RUN pip install --upgrade pip
@@ -31,13 +33,14 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /code/wheels -r requirements.
 #########
 
 # pull official base image
-FROM python:3-alpine
+FROM python:3
 
 # create directory for the app user
 RUN mkdir -p /home/app
 
 # create the app user
-RUN addgroup -S app && adduser -S app -G app
+RUN addgroup app 
+RUN useradd -g app app
 
 # create the appropriate directories
 ENV HOME=/home/app
@@ -48,7 +51,7 @@ RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apk update && apk add libpq
+RUN apt update && apt install libpq-dev
 COPY --from=builder /code/wheels /wheels
 COPY --from=builder /code/requirements.txt .
 RUN pip install --no-cache /wheels/*
@@ -60,7 +63,6 @@ COPY . $APP_HOME
 # chown all the files to the app user
 RUN chown -R app:app $APP_HOME
 
-RUN pip install appoptics-apm
 RUN export APPOPTICS_SERVICE_KEY=xpKp_JPfTVCuETTRHANl30T7MiX0t_yGHB2iBJgd_5M9uPx0vudRv7JACY-nfGu09_wf9YY:gruponce-good
 
 # change to the app user
