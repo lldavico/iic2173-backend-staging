@@ -1,5 +1,8 @@
 provider "aws" {
   region = "us-east-1"
+  access_key=""
+  secret_key=""
+
 }
 
 resource "aws_security_group" "ec2-elb-sg" {
@@ -121,10 +124,10 @@ resource "aws_db_subnet_group" "default" {
   }
 }
 
-resource "aws_key_pair" "default" {
-  key_name = "ec2-elb-key"
-  public_key = "${file("/root/.ssh/id_rsa.pub")}"
-}
+# resource "aws_key_pair" "default" {
+#   key_name = "ec2-elb-key"
+#   public_key = "${file("/root/.ssh/id_rsa.pub")}"
+# }
 
 resource "aws_launch_template" "foobar" {
   name_prefix   = "testing"
@@ -149,25 +152,17 @@ resource "aws_autoscaling_group" "bar" {
 resource "aws_instance" "oauth" {
   ami = "ami-0dba2cb6798deb6d8"
   instance_type = "t2.micro"
-  key_name = "${aws_key_pair.default.id}"
-  security_groups = ["${aws_security_group.ouath-sg.name}"]
+  #key_name = "${aws_key_pair.default.id}"
+  security_groups = ["${aws_security_group.oauth-sg.name}"]
   # user_data = "${file("bootstrap-server2.sh")}"
-
-  tags {
-    Name = "oauth"
-  }
 }
 
 resource "aws_instance" "admin" {
   ami = "ami-00ddb0e5626798373"
   instance_type = "t2.micro"
-  key_name = "${aws_key_pair.default.id}"
+  # key_name = "${aws_key_pair.default.id}"
   security_groups = ["${aws_security_group.admin-sg.name}"]
   # user_data = "${file("bootstrap-server2.sh")}"
-
-  tags {
-    Name = "admin"
-  }
 }
 
 resource "aws_elb" "default" {
